@@ -1,0 +1,15 @@
+
+.price {
+    float: right;
+}
+
+
+
+.control {
+    float: right;
+    position: relative;
+    top: -60px;
+    margin-right: 5px;
+}
+
+
