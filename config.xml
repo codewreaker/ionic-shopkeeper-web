@@ -8,13 +8,13 @@
         <author href="http://www.facebook.com" email="israel.agyeman.prempeh@gmail.com">
             Israel Agyeman-Prempeh
         </author>
-        <icon src="bigB.png" />
+        <icon src="src/img/logo.png" />
         <gap:plugin name="cordova-plugin-whitelist" source="npm" />
         <gap:plugin name="net.roughshod.plugins.barcodescanner" version="3.0.0" />
         <allow-navigation href="*" />
         <allow-intent href="*" />
         <access origin="*"/>
-        <gap:splash src="bigB.png" />
+        <gap:splash src="src/img/logo.png" />
         <gap:plaGorm name="ios" />
         <gap:plaGorm name="android" />
         <gap:plaGorm name="winphone" /> 
