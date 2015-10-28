@@ -14,7 +14,7 @@ var deviceReady = $(function () {
         in_duration: 300, // Transition in duration
         out_duration: 200, // Transition out duration
         ready: function () {
-            Materialize.toast('Change the price of this product', 4000)
+            Materialize.toast('Change the price of this product', 2000)
         }, // Callback for Modal open
         complete: function () {
                 alert('Closed');
@@ -22,7 +22,10 @@ var deviceReady = $(function () {
     });
 
 
-
+    //This function will be used to send an Ajax call to a database
+   var sendData = function(d){
+       alert(d);
+   }
 
 
 
@@ -30,7 +33,7 @@ var deviceReady = $(function () {
         $("#scan-btn").click(function () {
             cordova.plugins.barcodeScanner.scan(
                 function (result) {
-                    
+
                     // this function triggers the completed form modal
                     $('.scan-complete-trigger').leanModal({
                         dismissible: true, // Modal can be dismissed by clicking outside of the modal
@@ -38,16 +41,13 @@ var deviceReady = $(function () {
                         in_duration: 300, // Transition in duration
                         out_duration: 200, // Transition out duration
                         ready: function () {
-                            Materialize.toast(result.cancelled, 4000)
+                            $("#resultInfo").text("We got a barcode\n");
                         }, // Callback for Modal open
                         complete: function () {
-                                alert('Closed');
+                                sendData(result);
                             } // Callback for Modal close
                     });
-                    
-                    $(".scan-complete-trigger p").text("We got a barcode\n" +
-                        "Result: " + result.text + "\n" +
-                        "Format: " + result.format + "\n");
+
 
 
                 },
