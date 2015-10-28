@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" ?>
     <widget xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://phonegap.com/ns/1.0" id="com.dtandoh.pg1" versionCode="11" version="1.0.0">
         <!--    versionCode is  opIonal and Android only    -->
-        <name>Ionic Shopper</name>
+        <name>Ionic ShopperKeeper</name>
         <description>
-            A point of sale application using phonegap
+            A point of sale application using phonegap for shopkeers
         </description>
         <author href="http://www.facebook.com" email="israel.agyeman.prempeh@gmail.com">
             Israel Agyeman-Prempeh
@@ -14,7 +14,7 @@
         <allow-navigation href="*" />
         <allow-intent href="*" />
         <access origin="*"/>
-        <gap:splash src="logo.png" />
+        <gap:splash src="logo.gif" />
         <gap:plaGorm name="ios" />
         <gap:plaGorm name="android" />
         <gap:plaGorm name="winphone" /> 
