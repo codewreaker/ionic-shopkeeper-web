@@ -23,6 +23,8 @@ class shop extends adb{
     
     // A function to delete a product
     function delete_product($product_id){
+        $str_query="DELETE FROM mw_product WHERE product_id =$product_id";
+        return $this->query($str_query);
     }
     
     // A function to add a transaction 
@@ -58,6 +60,15 @@ if($opt==1){
             }
 	   }
     echo "]}";
+}else if($opt==3){
+    $id = $_REQUEST['product_id'];
+    
+    if(!$obj->delete_product($id)){
+        echo '{"result":0,"message":"Unfortunately Could Not Delete Item"}';
+    }else{
+        echo '{"result":1,"message":"Successfully Deleted Item"}';
+    }
+    
 }
 
 ?>

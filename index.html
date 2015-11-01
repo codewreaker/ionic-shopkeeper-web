@@ -27,7 +27,7 @@
     <nav>
         <div class="nav-wrapper">
             <a href="#" class="brand-logo">ionic-shopper</a>
-            <a href="#" data-activates="mobile-demo" class="center button-collapse"><i class="fa fa-cloud"></i></a>
+            <a href="#" data-activates="mobile-demo" class="center button-collapse"><i class="fa fa-shopping-cart"></i></a>
             <ul class="right hide-on-med-and-down">
                 <li><a href="sass.html">Sass</a></li>
                 <li><a href="badges.html">Components</a></li>
@@ -51,37 +51,11 @@
         <!--- Accordion Collection with badges -->
         <ul class="collapsible" data-collapsible="accordion" id="listSection">
 
-            <li>
-                <div class="collapsible-header"><i class="fa fa-dot-circle-o"></i>Don Simon<span class="price">&cent;1</span></div>
-                <div class="collapsible-body">
-                    <p> 1 are in stock</p>
-                    <div class="control"><a class="btn-floating red bottom-modal-trigger" href="#modal1" id="11"><i class="fa fa-trash"></i></a><a class="btn-floating yellow bottom-modal-trigger" href="#modal1" id="11"><i class="fa fa-edit"></i></a></div>
-                </div>
-            </li>
-            <li>
-                <div class="collapsible-header"><i class="fa fa-dot-circle-o"></i>Muscatella <span class="price">&cent;1</span></div>
-                <div class="collapsible-body">
-                    <p> are in stock</p>
-                    <div class="control"><a class="btn-floating red bottom-modal-trigger" href="#modal1" id="12"><i class="fa fa-trash"></i></a><a class="btn-floating yellow bottom-modal-trigger" href="#modal1" id="12"><i class="fa fa-edit"></i></a></div>
-                </div>
-            </li>
 
         </ul>
         <!--/Accordion collection with badges -->
 
 
-
-
-        <!-- Modal Structure -->
-        <div id="modal-complete" class="modal bottom-sheet">
-            <div class="modal-content">
-                <h4>Modal Header</h4>
-                <p id="resultInfo">A bunch of text</p>
-            </div>
-            <div class="modal-footer">
-                <a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat" id="sendData">Confirm</a>
-            </div>
-        </div>
 
 
         <!-- Modal Structure -->
@@ -118,31 +92,6 @@
         <!-- A modal that pops up and give an option to edit an entry -->
 
 
-        <!-- Modal Structure -->
-        <div id="modal1" class="modal bottom-sheet">
-            <div class="modal-content">
-                <h4>Edit</h4>
-                <form class="col s12">
-                    <div class="input-field col s12">
-                        <i class="material-icons prefix">account_circle</i>
-                        <input id="icon_prefix" type="text" class="validate">
-                        <label for="icon_prefix">First Name</label>
-                    </div>
-                    <div class="input-field col s12">
-                        <i class="material-icons prefix">phone</i>
-                        <input id="icon_telephone" type="tel" class="validate">
-                        <label for="icon_telephone">Telephone</label>
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat">Agree</a>
-            </div>
-        </div>
-        <!--/ A modal that pops up and give an option to edit an entry -->
-
-
-
 
         <!-- Footer Actions for the mobile -->
         <div class="action-btns">
@@ -152,7 +101,8 @@
                 </a>
                 <ul>
                     <!-- Sync system -->
-                    <li><a class="btn-floating btn-large grey darken-1"><i class="large material-icons">cloud_off</i></a></li>
+                    <li><a class="btn-floating btn-large grey darken-1">
+  <i class="fa fa-bolt  fa-1x"></i></a></li>
                     <!-- Scan a product -->
                     <li><a class="btn-floating btn-large yellow darken-1 scan-complete-trigger" id="scan-btn" href="#modal-complete"><i class="fa fa-qrcode"></i></a></li>
                     <!-- Add a product -->

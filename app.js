@@ -6,10 +6,9 @@ function onLoad() {
 var deviceReady = $(function () {
     // causes a sidebar to pop-up on click of menu button
     $(".button-collapse").sideNav();
-
-
+    
     $('.collapsible').collapsible({
-      accordion : true; // A setting that changes the collapsible behavior to expandable instead of the default accordion style
+      accordion : true // A setting that changes the collapsible behavior to expandable instead of the default accordion style
     });
 
     //This function will be used to send an Ajax call to a database
@@ -27,7 +26,7 @@ var deviceReady = $(function () {
 
     // An ajax call to save product
     var saveProduct = function () {
-        $("#save-product").on('click', function () {
+     $("#save-product").on('click', function () {
             var a = $("#product_name").val();
             var b = $("#product_price").val();
             var c = $("#product_quant").val();
@@ -35,7 +34,20 @@ var deviceReady = $(function () {
             $obj = sendRequest(str);
             var $toastContent = $obj.message;
             Materialize.toast($toastContent, 3000);
+        });    
+    }
+    
+    //An ajax call to delete a product from the database
+     var deleteProduct = function () {
+            $("ul").on('click','li .delete-product', function () {
+            var id = $(this).prop("id");
+            var str = 'opt=3&product_id=' + id;
+            $obj = sendRequest(str);
+            var $toastContent = $obj.message;
+            Materialize.toast($toastContent, 3000);
+            fetchProduct();
         });
+            
     }
     
     
@@ -51,10 +63,13 @@ var deviceReady = $(function () {
            
             var mid = "";
             for (var i = 0; i < data.length; i++) {
-                mid = mid + '<li><div class="collapsible-header"><i class="fa fa-dot-circle-o"></i>'  +data[i].product_name + '<span class="price">&cent;' + data[i].product_price + '</span></div><div class="collapsible-body"><p> are in stock</p><div class="control"><a class="btn-floating red bottom-modal-trigger" href="#modal1" id="'+data[i].product_id+'"><i class="fa fa-trash"></i></a><a class="btn-floating yellow bottom-modal-trigger" href="#modal1" id="'+data[i].product_id+'"><i class="fa fa-edit"></i></a></div></div></li>';
+                mid = mid + '<li><div class="collapsible-header"><i class="fa fa-dot-circle-o"></i>'  +data[i].product_name + '<span class="price">&cent;' + data[i].product_price + '</span></div><div class="collapsible-body"><p> are in stock</p><div class="control"><a class="btn-floating red delete-product" id="'+data[i].product_id+'"><i class="fa fa-trash"></i></a><a class="btn-floating yellow bottom-modal-trigger" href="#modal1" id="'+data[i].product_id+'"><i class="fa fa-edit"></i></a></div></div></li>';
             }
           
-            $("#listSection").append(mid);
+            $("#listSection").html(mid);
+            $('.collapsible').collapsible({
+            accordion : false // setting true changes to collapsible
+            });
         
        
         
@@ -73,7 +88,6 @@ var deviceReady = $(function () {
                     });
     }
                     
-    
 
     var barcode = function () {
         $("#scan-btn").click(function () {
@@ -88,40 +102,17 @@ var deviceReady = $(function () {
     }
 
 
-
-
-
-
-
-    // this function triggers the modal at the bottom of the screen
-    $('.bottom-modal-trigger').leanModal({
-        ready: function () {
-            Materialize.toast('Change the price of this product', 2000)
-        }, // Callback for Modal open
-        complete: function () {
-                alert('Closed');
-            } // Callback for Modal close
-    });
-
     // this function triggers the modal at the bottom of the screen to add data
     $('.add-product-trigger').leanModal({
         ready: function () {
             Materialize.toast('Add a product here', 2000);
         }, // Callback for Modal open
         complete: function () {
-
+            fetchProduct();
             } // Callback for Modal close
     });
     
-      // this function triggers the modal at the bottom of the screen
-    $('.bottom-modal-trigger').leanModal({
-        ready: function () {
-            Materialize.toast('Change the price of this product', 2000)
-        }, // Callback for Modal open
-        complete: function () {
-                alert('Closed');
-            } // Callback for Modal close
-    });
+  
     
     
    
@@ -133,6 +124,8 @@ var deviceReady = $(function () {
     barcode();
     //executes a save product function
     saveProduct();
+    //deletes a product based on the id
+    deleteProduct();
     //a test function
     saveBarcodeData();
 
