@@ -14,7 +14,7 @@
         <allow-navigation href="*" />
         <allow-intent href="*" />
         <access origin="*"/>
-        <gap:splash src="logo.gif" />
+        <gap:splash src="logo.png" />
         <gap:plaGorm name="ios" />
         <gap:plaGorm name="android" />
         <gap:plaGorm name="winphone" /> 
