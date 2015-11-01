@@ -8,7 +8,9 @@ var deviceReady = $(function () {
     $(".button-collapse").sideNav();
 
 
-
+    $('.collapsible').collapsible({
+      accordion : true; // A setting that changes the collapsible behavior to expandable instead of the default accordion style
+    });
 
     //This function will be used to send an Ajax call to a database
     function sendRequest(dataString) {
@@ -120,6 +122,10 @@ var deviceReady = $(function () {
                 alert('Closed');
             } // Callback for Modal close
     });
+    
+    
+   
+
 
     //A function that populates the table
     fetchProduct();
