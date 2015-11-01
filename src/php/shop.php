@@ -4,9 +4,9 @@ include_once("adb.php");
 
 class shop extends adb{
     // A function to add products to the db
-    function add_product($product_name, $product_price,$product_quant){
+    function add_product($product_name, $product_price,$product_quant,$product_barcode){
         $str_query="insert into mw_product set product_name='$product_name',
-        product_price='$product_price',product_quantity='$product_quant'";
+        product_price='$product_price',product_quantity='$product_quant',product_barcode='$product_barcode'";
         return $this->query($str_query);
     }
     
@@ -16,11 +16,19 @@ class shop extends adb{
         return $this->query($str_query);
     }
     
-    
-    //A function to edit a product
-    function edit_products($product_id){
+    // A fcuntion to fetch all products from the db
+    function fetch_product($id){
+        $str_query="select * FROM mw_product WHERE product_id='$id'";
+        return $this->query($str_query);
     }
     
+    //A function to edit a product
+    function edit_product($product_id,$product_name, $product_price,$product_quant,$product_barcode){
+        $str_query="UPDATE mw_product SET product_name='$product_name',
+        product_price='$product_price',product_quantity='$product_quant',product_barcode='$product_barcode' WHERE product_id='$product_id'";
+        return $this->query($str_query);
+    }
+
     // A function to delete a product
     function delete_product($product_id){
         $str_query="DELETE FROM mw_product WHERE product_id =$product_id";
@@ -37,13 +45,19 @@ class shop extends adb{
 
 $obj = new shop();
 $opt = $_REQUEST['opt'];
+//opt 1 adds a product
+//opt 2 fetches all products from the database
+//opt 3 deletes from the database
+//opt 4 selects a single record
+//opt 5 edits an item
 
 if($opt==1){
     $a = $_REQUEST['product_name'];
     $b = $_REQUEST['product_price'];
     $c = $_REQUEST['product_quant'];
+    $d = $_REQUEST['product_barcode'];
 
-    if(!$obj->add_product($a,$b,$c)){
+    if(!$obj->add_product($a,$b,$c,$d)){
         echo '{"result":0,"message":"Failed"}';
         //echo mysql_error();
     }else{
@@ -67,6 +81,31 @@ if($opt==1){
         echo '{"result":0,"message":"Unfortunately Could Not Delete Item"}';
     }else{
         echo '{"result":1,"message":"Successfully Deleted Item"}';
+    }
+    
+}else if($opt==4){
+    $id = $_REQUEST['product_id'];
+    
+    if(!$obj->fetch_product($id)){
+        echo '{"result":0,"message":"No such product"}';
+    }else{
+        $row=$obj->fetch();
+        echo '{"result":1,"data":[';
+        echo json_encode($row);
+        echo ']}';
+    }
+    
+}else if($opt==5){
+    $id = $_REQUEST['product_id'];
+    $a = $_REQUEST['product_name'];
+    $b = $_REQUEST['product_price'];
+    $c = $_REQUEST['product_quantity'];
+    $d = $_REQUEST['product_barcode'];
+    
+    if(!$obj->edit_product($id,$a,$b,$c,$d)){
+        echo '{"result":0,"message":"Could not Edit Product"}';
+    }else{
+        echo '{"result":1,"message":"Record Edited"}';
     }
     
 }
