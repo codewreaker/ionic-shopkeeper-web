@@ -100,25 +100,72 @@ var deviceReady = $(function () {
         $("#listSection").html(mid);
         list_control();
     }
-        
-    
-        // The barcode of the product is scanned and form is filled
-        var makePurchase = function () {
-            $("#scan-btn-2").click(function () {
-                cordova.plugins.barcodeScanner.scan(
-                    function (result) {
-                        
-                        
-                    },
-                    function (error) {
-    
+
+
+    // The barcode of the product is scanned and form is filled
+    var makePurchase = function () {
+        var id;
+        var currentQuantity;
+        $("#scan-btn-2").click(function () {
+//            var barcode_id = "000003";
+//            $obj = sendRequest('opt=6&product_barcode=' + barcode_id);
+//            if ($obj.result == 0) {
+//                alert("No Such Product");
+//            } else {
+//                id = $obj.data[0].product_id;
+//                currentQuantity = $obj.data[0].product_quantity;
+//                $("#product_name_2").val($obj.data[0].product_name);
+//                $("#product_price_2").val($obj.data[0].product_price);
+//                $("#product_quant_2").val($obj.data[0].product_quantity);
+//                $("#product_barcode_2").val($obj.data[0].product_barcode);
+//            }
+
+
+            cordova.plugins.barcodeScanner.scan(
+                function (result) {
+                    var barcode_id = result.text;
+                    $obj = sendRequest('opt=6&product_barcode=' + barcode_id);
+                    if ($obj.result == 0) {
+                        alert("No Such Product");
+                    } else {
+                        id = $obj.data[0].product_id;
+                        currentQuantity = $obj.data[0].product_quantity;
+                        $("#product_name_2").val($obj.data[0].product_name);
+                        $("#product_price_2").val($obj.data[0].product_price);
+                        $("#product_quant_2").val($obj.data[0].product_quantity);
+                        $("#product_barcode_2").val($obj.data[0].product_barcode);
                     }
-                );
-            });
-        }
+
+                },
+                function (error) {
+
+                }
+            );
+        });
+
+        // a function to save the transaction
+        // This part executes the edit function
+        $("#purchase-product").click(function () {
+            var a = $("#product_name_2").val();
+            var b = $("#product_price_2").val();
+            var c = $("#product_quant_2").val();
+            var d = $("#product_barcode_2").val();
+
+            // checking if the transaction can be made
+            if ((currentQuantity - c) < 0) {
+                alert("Cannot buy that many");
+            } else {
+                var str = 'opt=5&product_id=' + id + '&product_name=' + a + '&product_price=' + b + '&product_quantity=' + (currentQuantity - c) + '&product_barcode=' + d;
+                $obj = sendRequest(str);
+                var $toastContent = $obj.message;
+                Materialize.toast($toastContent, 3000);
+            }
+
+        });
+    }
 
 
-        //A function that triggers the barcode scanner to append to the edit form
+    //A function that triggers the barcode scanner to append to the edit form
     var barcode = function () {
         $("#scan-btn, #scan-btn-1").click(function () {
             cordova.plugins.barcodeScanner.scan(
@@ -144,16 +191,16 @@ var deviceReady = $(function () {
             } // Callback for Modal close
     });
 
-   
-        $("#purchase").leanModal({
-            ready: function () {
-                Materialize.toast('Edit a product here', 2000);
-            }, // Callback for Modal open
-            complete: function () {
-                    fetchProduct();
-                } // Callback for Modal close
-        });
-    
+
+    $("#purchase").leanModal({
+        ready: function () {
+            Materialize.toast('Save a purchase', 2000);
+        }, // Callback for Modal open
+        complete: function () {
+                fetchProduct();
+            } // Callback for Modal close
+    });
+
 
 
     // A series of functions that are bound to each list, an alternative for method delegation

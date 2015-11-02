@@ -22,6 +22,12 @@ class shop extends adb{
         return $this->query($str_query);
     }
     
+    // A fcuntion to fetch a products based on it's barcode
+    function fetch_product_via_barcode($barcode){
+        $str_query="select * FROM mw_product WHERE product_barcode='$barcode'";
+        return $this->query($str_query);
+    }
+    
     //A function to edit a product
     function edit_product($product_id,$product_name, $product_price,$product_quant,$product_barcode){
         $str_query="UPDATE mw_product SET product_name='$product_name',
@@ -50,6 +56,7 @@ $opt = $_REQUEST['opt'];
 //opt 3 deletes from the database
 //opt 4 selects a single record
 //opt 5 edits an item
+//opt 6 fetches an item based on product code
 
 if($opt==1){
     $a = $_REQUEST['product_name'];
@@ -106,6 +113,17 @@ if($opt==1){
         echo '{"result":0,"message":"Could not Edit Product"}';
     }else{
         echo '{"result":1,"message":"Record Edited"}';
+    }  
+}else if($opt==6){
+    $barcode = $_REQUEST['product_barcode'];
+    $obj->fetch_product_via_barcode($barcode);
+    $row=$obj->fetch();
+    if($row){
+        echo '{"result":1,"data":[';
+        echo json_encode($row);
+        echo ']}';
+    }else{
+        echo '{"result":0,"message":"No such product"}';
     }
     
 }

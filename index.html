@@ -93,7 +93,7 @@
 
         </div>
 
- <!-- A modal that pops up and give an option to edit an entry -->
+        <!-- A modal that pops up and give an option to edit an entry -->
         <!-- Modal Structure -->
         <div id="modal-edit" class="modal">
             <div class="modal-content">
@@ -106,7 +106,7 @@
                             </div>
                             <div class="input-field col s3">
                                 <input id="product_price_1" type="text" class="validate">
-                           
+
                             </div>
                             <div class="input-field col s3">
                                 <input id="product_quant_1" type="text" class="validate">
@@ -128,31 +128,40 @@
         </div>
 
 
-         <!-- A modal that pops up and give an option to make a purchase an entry -->
+        <!-- A modal that pops up and give an option to make a purchase an entry -->
         <!-- Modal Structure -->
         <div id="modal-purchase" class="modal">
             <div class="modal-content">
                 <h4>Purchase Product</h4>
                 <div class="row">
                     <form class="col s12">
+                        <h6>Scan the product</h6>
                         <div class="row">
-                            <div class="input-field col s6">
-                                <input id="product_name_2" type="text" class="validate">
-                            </div>
-                            <div class="input-field col s3">
-                                <input id="product_price_2" type="text" class="validate">
-                           
-                            </div>
-                            <div class="input-field col s3">
-                                <input id="product_quant_2" type="text" class="validate">
+                            <div class="input-field col s12">
+                                <a class="btn-floating btn-large yellow darken-1 scan-complete-trigger" id="scan-btn-2"><i class="fa fa-qrcode"></i></a>
                             </div>
                             <div class="input-field  col s12">
-                                <input id="product_barcode_2" type="text" class="validate col s8">
-                                <a class="btn-floating btn-large yellow darken-1 scan-complete-trigger" id="scan-btn-2"><i class="fa fa-qrcode"></i></a>
+                                <input id="product_barcode_2" type="text" class="validate col s8" placeholder="barcode" disabled>
+
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="input-field col s6">
+                                <input id="product_name_2" type="text" class="validate" placeholder="Product Name" disabled>
+                            </div>
+                            <div class="input-field col s6">
+                                <input id="product_price_2" type="text" class="validate" placeholder="Price" disabled>
+
                             </div>
                         </div>
                         <div class="row">
-                            <button class="btn waves-effect waves-light modal-close" id="edit-product">Edit
+                            <div class="input-field col s12">
+                                <input id="product_quant_2" type="text" class="validate" placeholder="Quantity">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <button class="btn waves-effect waves-light modal-close" id="purchase-product">Purchase
                                 <i class="fa fa-send right"></i>
                             </button>
                         </div>
