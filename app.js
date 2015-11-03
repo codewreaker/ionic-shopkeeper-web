@@ -91,13 +91,13 @@ var deviceReady = $(function () {
 
 
         var data = $obj.data;
-
+        var top = '<li class="collection-header"><h4>Products</h4></li>';
         var mid = "";
         for (var i = 0; i < data.length; i++) {
-            mid = mid + '<li><div class="collapsible-header"><i class="fa fa-dot-circle-o"></i>' + data[i].product_name + '<span class="price">&cent;' + data[i].product_price + '</span></div><div class="collapsible-body"><p>' + data[i].product_quantity + ' are in stock</p><div class="control"><a class="btn-floating red delete-product" id="' + data[i].product_id + '"><i class="fa fa-trash"></i></a><a class="btn-floating yellow edit-product" href="#modal-edit" id="' + data[i].product_id + '"><i class="fa fa-edit"></i></a></div></div></li>';
+            mid = mid+'<li class="collection-item avatar"><img src="src/img/logo-1.png" alt="" class="circle"><span class="title">' + data[i].product_name + '</span><p>&cent;' + data[i].product_price + '&nbsp|&nbsp' + data[i].product_quantity + ' left</p><span class="controls secondary-content"><a class="btn-floating teal lighten-2 edit-product" href="#modal-edit" id="' + data[i].product_id + '"><i class="fa fa-edit"></i></a><a class="btn-floating teal lighten-2 delete-product" id="' + data[i].product_id + '"><i class="fa fa-2x fa-trash"></i></a></span></li>';
         }
 
-        $("#listSection").html(mid);
+        $("#listSection").html(top+mid);
         list_control();
     }
 
@@ -106,8 +106,9 @@ var deviceReady = $(function () {
     var makePurchase = function () {
         var id;
         var currentQuantity;
+        var barcode_id;
         $("#scan-btn-2").click(function () {
-//            var barcode_id = "000003";
+//            barcode_id = "000003";
 //            $obj = sendRequest('opt=6&product_barcode=' + barcode_id);
 //            if ($obj.result == 0) {
 //                alert("No Such Product");
@@ -116,25 +117,23 @@ var deviceReady = $(function () {
 //                currentQuantity = $obj.data[0].product_quantity;
 //                $("#product_name_2").val($obj.data[0].product_name);
 //                $("#product_price_2").val($obj.data[0].product_price);
-//                $("#product_quant_2").val($obj.data[0].product_quantity);
+//
 //                $("#product_barcode_2").val($obj.data[0].product_barcode);
 //            }
-
-
-            cordova.plugins.barcodeScanner.scan(
+cordova.plugins.barcodeScanner.scan(
                 function (result) {
-                    var barcode_id = result.text;
-                    $obj = sendRequest('opt=6&product_barcode=' + barcode_id);
-                    if ($obj.result == 0) {
-                        alert("No Such Product");
-                    } else {
-                        id = $obj.data[0].product_id;
-                        currentQuantity = $obj.data[0].product_quantity;
-                        $("#product_name_2").val($obj.data[0].product_name);
-                        $("#product_price_2").val($obj.data[0].product_price);
-                        $("#product_quant_2").val($obj.data[0].product_quantity);
-                        $("#product_barcode_2").val($obj.data[0].product_barcode);
-                    }
+                     barcode_id = result.text;
+            $obj = sendRequest('opt=6&product_barcode=' + barcode_id);
+            if ($obj.result == 0) {
+                alert("No Such Product");
+            } else {
+                id = $obj.data[0].product_id;
+                currentQuantity = $obj.data[0].product_quantity;
+                $("#product_name_2").val($obj.data[0].product_name);
+                $("#product_price_2").val($obj.data[0].product_price);
+                $("#product_barcode_2").val($obj.data[0].product_barcode);
+            }
+
 
                 },
                 function (error) {
@@ -164,6 +163,7 @@ var deviceReady = $(function () {
         });
     }
 
+    
 
     //A function that triggers the barcode scanner to append to the edit form
     var barcode = function () {

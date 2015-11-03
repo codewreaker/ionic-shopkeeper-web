@@ -1,15 +1,20 @@
 
-.price {
-    float: right;
+html{
+    background-color: #f0f0f0;
 }
 
 
-
-.control {
-    float: right;
-    position: relative;
-    top: -40px;
+.controls {
+    display: inline-block;
     
 }
 
+.controls a:nth-child(1){
+    margin-right: 10px;
+}
 
+.logo-brand img{
+    padding: 10px;
+    width: 60px;
+    height: auto;
+}
