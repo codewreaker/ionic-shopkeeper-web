@@ -125,7 +125,7 @@ cordova.plugins.barcodeScanner.scan(
                      barcode_id = result.text;
             $obj = sendRequest('opt=6&product_barcode=' + barcode_id);
             if ($obj.result == 0) {
-                alert("No Such Product");
+                alert("No Such Product with barcode:"+result.text);
             } else {
                 id = $obj.data[0].product_id;
                 currentQuantity = $obj.data[0].product_quantity;
