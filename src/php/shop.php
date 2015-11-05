@@ -41,8 +41,11 @@ class shop extends adb{
         return $this->query($str_query);
     }
     
+
     // A function to add a transaction 
-    function add_transaction($product_id){
+    function add_transaction($id,$a,$b){
+        $str_query="insert into mw_transaction set product_id='$id',product_quantity='$a',customer_number='$b',transaction_date=CURTIME()";
+        return $this->query($str_query);
     }
     
     function remove_transaction($transaction_id){
@@ -124,6 +127,18 @@ if($opt==1){
         echo ']}';
     }else{
         echo '{"result":0,"message":"No such product"}';
+    }
+    
+}else if($opt==7){
+    //saving a transaction
+    $id = $_REQUEST['product_id'];
+    $a = $_REQUEST['product_quantity'];
+    $b = $_REQUEST['customer_number'];
+    
+    if(!$obj->add_transaction($id,$a,$b)){
+        echo '{"result":0,"message":"Failed to save transaction"}';
+    }else{
+        echo '{"result":1,"message":"transaction recorded"}';
     }
     
 }

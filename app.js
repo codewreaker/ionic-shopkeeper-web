@@ -13,8 +13,8 @@ var deviceReady = $(function () {
     function sendRequest(dataString) {
         var obj = $.ajax({
             type: "POST",
-            //url: "src/php/shop.php",
-            url: "http://cs.ashesi.edu.gh/~csashesi/class2016/prophet-agyeman-prempeh/mobile_web_server/shop.php", //for web
+            url: "src/php/shop.php",
+            //url: "http://cs.ashesi.edu.gh/~csashesi/class2016/prophet-agyeman-prempeh/mobile_web_server/shop.php", //for web
             data: dataString,
             async: false,
             cache: false
@@ -94,10 +94,11 @@ var deviceReady = $(function () {
         var top = '<li class="collection-header"><h4>Products</h4></li>';
         var mid = "";
         for (var i = 0; i < data.length; i++) {
-            mid = mid+'<li class="collection-item avatar"><img src="src/img/logo-1.png" alt="" class="circle"><span class="title">' + data[i].product_name + '</span><p>&cent;' + data[i].product_price + '&nbsp|&nbsp' + data[i].product_quantity + ' left</p><span class="controls secondary-content"><a class="btn-floating teal lighten-2 edit-product" href="#modal-edit" id="' + data[i].product_id + '"><i class="fa fa-edit"></i></a><a class="btn-floating teal lighten-2 delete-product" id="' + data[i].product_id + '"><i class="fa fa-2x fa-trash"></i></a></span></li>';
+            mid = mid + '<li class="collection-item avatar"><img src="src/img/logo.png" alt="" class="circle"><span class="title">' + data[i].product_name + '</span><p>&cent;' + data[i].product_price + '&nbsp|&nbsp' + data[i].product_quantity + ' left</p><span class="controls secondary-content"><a class="btn-floating teal lighten-2 edit-product" href="#modal-edit" id="' + data[i].product_id + '"><i class="fa fa-edit"></i></a><a class="btn-floating teal lighten-2 delete-product" id="' + data[i].product_id + '"><i class="fa fa-2x fa-trash"></i></a></span></li>';
         }
 
-        $("#listSection").html(top+mid);
+        $("#listSection").html(top + mid);
+         $("#listSection2").html(top + mid);
         list_control();
     }
 
@@ -110,6 +111,7 @@ var deviceReady = $(function () {
         $("#scan-btn-2").click(function () {
 //            barcode_id = "000003";
 //            $obj = sendRequest('opt=6&product_barcode=' + barcode_id);
+//            alert($obj.data[0].product_id);
 //            if ($obj.result == 0) {
 //                alert("No Such Product");
 //            } else {
@@ -120,19 +122,20 @@ var deviceReady = $(function () {
 //
 //                $("#product_barcode_2").val($obj.data[0].product_barcode);
 //            }
-cordova.plugins.barcodeScanner.scan(
+            cordova.plugins.barcodeScanner.scan(
+                //cehck why its is alerting no such product when there is product
                 function (result) {
-                     barcode_id = result.text;
-            $obj = sendRequest('opt=6&product_barcode=' + barcode_id);
-            if ($obj.result == 0) {
-                alert("No Such Product with barcode:"+result.text);
-            } else {
-                id = $obj.data[0].product_id;
-                currentQuantity = $obj.data[0].product_quantity;
-                $("#product_name_2").val($obj.data[0].product_name);
-                $("#product_price_2").val($obj.data[0].product_price);
-                $("#product_barcode_2").val($obj.data[0].product_barcode);
-            }
+                    barcode_id = result.text;
+                    $obj = sendRequest('opt=6&product_barcode=' + barcode_id);
+                    if ($obj.result == 0) {
+                        alert("No Such Product with barcode:" + result.text);
+                    } else {
+                        id = $obj.data[0].product_id;
+                        currentQuantity = $obj.data[0].product_quantity;
+                        $("#product_name_2").val($obj.data[0].product_name);
+                        $("#product_price_2").val($obj.data[0].product_price);
+                        $("#product_barcode_2").val($obj.data[0].product_barcode);
+                    }
 
 
                 },
@@ -149,12 +152,19 @@ cordova.plugins.barcodeScanner.scan(
             var b = $("#product_price_2").val();
             var c = $("#product_quant_2").val();
             var d = $("#product_barcode_2").val();
+            var e = $("#customer_number").val();
 
             // checking if the transaction can be made
             if ((currentQuantity - c) < 0) {
                 alert("Cannot buy that many");
             } else {
+                // updating data via opt 5
                 var str = 'opt=5&product_id=' + id + '&product_name=' + a + '&product_price=' + b + '&product_quantity=' + (currentQuantity - c) + '&product_barcode=' + d;
+                $obj = sendRequest(str);
+
+                // Storing data information into transaction table
+                // updating data
+                var str = 'opt=7&product_id=' + id + '&product_quantity=' + c + '&customer_number=' + e;
                 $obj = sendRequest(str);
                 var $toastContent = $obj.message;
                 Materialize.toast($toastContent, 3000);
@@ -163,7 +173,7 @@ cordova.plugins.barcodeScanner.scan(
         });
     }
 
-    
+
 
     //A function that triggers the barcode scanner to append to the edit form
     var barcode = function () {

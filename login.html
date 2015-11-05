@@ -17,10 +17,79 @@
     <script src="src/js/materialize.min.js"></script>
     <script src="cordova.js"></script>
     <script src="app.js"></script>
+    <script src="login.js"></script>
     <link rel="icon" href="src/img/logo.png">
 </head>
 
 <body onload="onLoad()">
 
+    <div class="container">
+        <div class="row">
+            <div class="card col offset-s1 s10" id="login_page">
+                <h4 class="center">Login</h4>
+                <img src="src/img/logo.png" alt="logo" class="">
+                <form class="col s12">
+                    <div class="row">
+                        <div class="input-field col s12">
+                            <i class="fa fa-2x fa-user"></i>
+                            <input type="text" class="validate" placeholder="Username" id="login_email">
+                        </div>
+                        <div class="input-field col s12">
+                            <i class="fa fa-2x fa-key"></i>
+                            <input  type="password" class="validate" placeholder="Password" id="login_pword">
+                        </div>
+                    </div>
+                    <div class="input-field col s12">
+                        <a class="waves-effect waves-light btn col s12 center" id="login">login</a>
+                    </div>
+                    <div class="input-field col s12">
+                        <a class="waves-effect waves-light btn col s12 center" id="signup">signup</a>
+                    </div>
+                </form>
+            </div>
+
+
+            <!-- Sign Up Class Reveals on Click of Sign Up -->
+            <div class="card col offset-s1 s10 " id="signup_page">
+                <h4 class="center">SignUp</h4>
+                <img src="logo.png" alt="logo" class="">
+                <form class="col s12">
+                    <div class="row">
+                        <div class="input-field col s12">
+                            <i class="fa fa-2x fa-user"></i>
+                            <input id="signup_email" type="text" class="validate" placeholder="email address">
+                        </div>
+                        <div class="input-field col s12">
+                            <i class="fa fa-2x fa-key"></i>
+                            <input id="signup_pword" type="password" class="validate" placeholder="Password">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="input-field col s12" id="adminChooser">
+                            <select class="browser-default" id="admin_select">
+                                <option value="" disabled selected>Choose your Admin option</option>
+                                <option value="1">Admin</option>
+                                <option value="0">Non Admin</option>
+                                <option value="">Guest</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="input-field col s12">
+                            <a class="waves-effect waves-light btn col s12 center" id="signup_user">save</a>
+                        </div>
+                        <div class="input-field col s12">
+                            <a class="waves-effect waves-light btn col s12 center" id="signup_cancel">cancel</a>
+                        </div>
+                    </div>
+
+
+                </form>
+            </div>
+        </div>
+    </div>
+
 </body>
+
 </html>
