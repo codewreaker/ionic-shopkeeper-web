@@ -50,6 +50,11 @@ class shop extends adb{
     
     function remove_transaction($transaction_id){
     }
+    
+    function fetch_transactions(){
+        $str_query="SELECT t.transaction_id,p.product_name, p.product_barcode, t.product_quantity,t.customer_number,t.transaction_date FROM mw_transaction t INNER JOIN mw_product p ON p.product_id=t.product_id ORDER BY t.transaction_date DESC";
+        return $this->query($str_query);
+    }
 }
 
 $obj = new shop();
@@ -62,6 +67,7 @@ $opt = $_REQUEST['opt'];
 //opt 6 fetches an item based on product code
 
 if($opt==1){
+    // adding a product
     $a = $_REQUEST['product_name'];
     $b = $_REQUEST['product_price'];
     $c = $_REQUEST['product_quant'];
@@ -74,6 +80,7 @@ if($opt==1){
         echo '{"result":1,"message":"Successfully Added Product"}';
     }
 }else if($opt==2){
+    // fetching products from product table
     $obj->fetch_products();
     $row=$obj->fetch();
     echo '{"result":1,"data":[';	/*start of json object*/
@@ -85,6 +92,7 @@ if($opt==1){
 	   }
     echo "]}";
 }else if($opt==3){
+    // deleting product from database
     $id = $_REQUEST['product_id'];
     
     if(!$obj->delete_product($id)){
@@ -94,6 +102,7 @@ if($opt==1){
     }
     
 }else if($opt==4){
+    //selecting a single record
     $id = $_REQUEST['product_id'];
     
     if(!$obj->fetch_product($id)){
@@ -106,6 +115,7 @@ if($opt==1){
     }
     
 }else if($opt==5){
+    // editing an item in the products table
     $id = $_REQUEST['product_id'];
     $a = $_REQUEST['product_name'];
     $b = $_REQUEST['product_price'];
@@ -118,6 +128,7 @@ if($opt==1){
         echo '{"result":1,"message":"Record Edited"}';
     }  
 }else if($opt==6){
+    // fetching an item based on the product code
     $barcode = $_REQUEST['product_barcode'];
     $obj->fetch_product_via_barcode($barcode);
     $row=$obj->fetch();
@@ -140,6 +151,19 @@ if($opt==1){
     }else{
         echo '{"result":1,"message":"transaction recorded"}';
     }
+    
+}else if($opt==8){
+    // fetching adata from the transaction table
+    $obj->fetch_transactions();
+    $row=$obj->fetch();
+    echo '{"result":1,"data":[';	/*start of json object*/
+    while($row){
+    echo json_encode($row);/*convert the result array to json object*/
+    $row=$obj->fetch();
+    if($row){ echo ",";	/*if there are more rows, add comma*/
+            }
+	   }
+    echo "]}";
     
 }
 

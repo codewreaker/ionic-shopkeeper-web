@@ -4,10 +4,6 @@ function onLoad() {
 }
 
 var deviceReady = $(function () {
-    // causes a sidebar to pop-up on click of menu button
-    $(".button-collapse").sideNav();
-
-
 
     //This function will be used to send an Ajax call to a database
     function sendRequest(dataString) {
@@ -84,22 +80,33 @@ var deviceReady = $(function () {
 
     //An Ajax call to fetch data from server
     var fetchProduct = function () {
-
+        // Part a populates listSection
         $obj = sendRequest("opt=2");
         var $toastContent = $obj.message;
         Materialize.toast($toastContent, 3000);
-
-
         var data = $obj.data;
         var top = '<li class="collection-header"><h4>Products</h4></li>';
         var mid = "";
         for (var i = 0; i < data.length; i++) {
             mid = mid + '<li class="collection-item avatar"><img src="src/img/logo.png" alt="" class="circle"><span class="title">' + data[i].product_name + '</span><p>&cent;' + data[i].product_price + '&nbsp|&nbsp' + data[i].product_quantity + ' left</p><span class="controls secondary-content"><a class="btn-floating teal lighten-2 edit-product" href="#modal-edit" id="' + data[i].product_id + '"><i class="fa fa-edit"></i></a><a class="btn-floating teal lighten-2 delete-product" id="' + data[i].product_id + '"><i class="fa fa-2x fa-trash"></i></a></span></li>';
         }
-
         $("#listSection").html(top + mid);
-         $("#listSection2").html(top + mid);
-        list_control();
+
+
+        // Part B populates listsection2
+        $obj = sendRequest("opt=8");
+        var $toastContent = $obj.message;
+        Materialize.toast($toastContent, 3000);
+        var data = $obj.data;
+        var top = '<li class="collection-header"><h4>Transactions</h4></li>';
+        var mid = "";
+        for (var i = 0; i < data.length; i++) {
+            mid = mid + '<li class="collection-item avatar"><img src="src/img/logo.png" alt="" class="circle"><span class="title">' + data[i].product_name + '</span><p>' + data[i].product_quantity + ' Bought By ' + data[i].customer_number + '&nbsp </p><span class="controls secondary-content"><a class="btn-floating teal lighten-2 view-receipt" href="#modal-receipt" id='+data[i].transaction_id+'"><i class="fa fa-eye"></i></a></span></li>';
+        }
+        $("#listSection2").html(top + mid);
+        list_control(data);
+
+
     }
 
 
@@ -109,21 +116,21 @@ var deviceReady = $(function () {
         var currentQuantity;
         var barcode_id;
         $("#scan-btn-2").click(function () {
-//            barcode_id = "000003";
-//            $obj = sendRequest('opt=6&product_barcode=' + barcode_id);
-//            alert($obj.data[0].product_id);
-//            if ($obj.result == 0) {
-//                alert("No Such Product");
-//            } else {
-//                id = $obj.data[0].product_id;
-//                currentQuantity = $obj.data[0].product_quantity;
-//                $("#product_name_2").val($obj.data[0].product_name);
-//                $("#product_price_2").val($obj.data[0].product_price);
-//
-//                $("#product_barcode_2").val($obj.data[0].product_barcode);
-//            }
+                        barcode_id = "354826";
+                        $obj = sendRequest('opt=6&product_barcode=' + barcode_id);
+                        alert($obj.data[0].product_id);
+                        if ($obj.result == 0) {
+                            alert("No Such Product");
+                        } else {
+                            id = $obj.data[0].product_id;
+                            currentQuantity = $obj.data[0].product_quantity;
+                            $("#product_name_2").val($obj.data[0].product_name);
+                            $("#product_price_2").val($obj.data[0].product_price);
+            
+                            $("#product_barcode_2").val($obj.data[0].product_barcode);
+                        }
             cordova.plugins.barcodeScanner.scan(
-                //cehck why its is alerting no such product when there is product
+                //check why its is alerting no such product when there is product
                 function (result) {
                     barcode_id = result.text;
                     $obj = sendRequest('opt=6&product_barcode=' + barcode_id);
@@ -210,14 +217,13 @@ var deviceReady = $(function () {
                 fetchProduct();
             } // Callback for Modal close
     });
+    
+    
 
 
 
     // A series of functions that are bound to each list, an alternative for method delegation
-    var list_control = function () {
-        $('.collapsible').collapsible({
-            accordion: false // setting true changes to collapsible
-        });
+    var list_control = function (data) {
         // this function triggers the modal at the bottom of the screen to add data
         $('.edit-product').leanModal({
             ready: function () {
@@ -227,6 +233,25 @@ var deviceReady = $(function () {
                     fetchProduct();
                 } // Callback for Modal close
         });
+        
+        
+        
+        $(".view-receipt").leanModal({
+        ready: function () {
+            Materialize.toast('This is a receipt', 2000);
+        }, // Callback for Modal open
+        complete: function () {
+            } // Callback for Modal close
+    });
+        
+    
+    }
+    
+    
+    var syncSystem = function(){
+        $("#sync").click(function(){
+            fetchProduct();
+        });
     }
 
 
@@ -235,7 +260,7 @@ var deviceReady = $(function () {
 
     makePurchase();
     //A function that populates the table
-    fetchProduct();
+    syncSystem();
     //executes a barcode reader on phones
     barcode();
     //executes a save product function
