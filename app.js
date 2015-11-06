@@ -116,19 +116,19 @@ var deviceReady = $(function () {
         var currentQuantity;
         var barcode_id;
         $("#scan-btn-2").click(function () {
-                        barcode_id = "354826";
-                        $obj = sendRequest('opt=6&product_barcode=' + barcode_id);
-                        alert($obj.data[0].product_id);
-                        if ($obj.result == 0) {
-                            alert("No Such Product");
-                        } else {
-                            id = $obj.data[0].product_id;
-                            currentQuantity = $obj.data[0].product_quantity;
-                            $("#product_name_2").val($obj.data[0].product_name);
-                            $("#product_price_2").val($obj.data[0].product_price);
-            
-                            $("#product_barcode_2").val($obj.data[0].product_barcode);
-                        }
+//                        barcode_id = "354826";
+//                        $obj = sendRequest('opt=6&product_barcode=' + barcode_id);
+//                        alert($obj.data[0].product_id);
+//                        if ($obj.result == 0) {
+//                            alert("No Such Product");
+//                        } else {
+//                            id = $obj.data[0].product_id;
+//                            currentQuantity = $obj.data[0].product_quantity;
+//                            $("#product_name_2").val($obj.data[0].product_name);
+//                            $("#product_price_2").val($obj.data[0].product_price);
+//            
+//                            $("#product_barcode_2").val($obj.data[0].product_barcode);
+//                        }
             cordova.plugins.barcodeScanner.scan(
                 //check why its is alerting no such product when there is product
                 function (result) {
@@ -175,6 +175,7 @@ var deviceReady = $(function () {
                 $obj = sendRequest(str);
                 var $toastContent = $obj.message;
                 Materialize.toast($toastContent, 3000);
+                fetchProduct();
             }
 
         });
